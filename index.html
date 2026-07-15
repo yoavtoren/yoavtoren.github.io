@@ -4,15 +4,39 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>MedCross — Medical Crossword</title>
-  <meta name="description" content="MedCross is a medical crossword game for students and clinicians. Learn terminology the fun way." />
+  <meta name="description" content="MedCross is a medical crossword game for students and clinicians — puzzles, trivia, 1v1 battles, and a guided curriculum. Learn terminology the fun way." />
   <link rel="icon" type="image/png" href="favicon.png" />
   <link rel="apple-touch-icon" href="apple-touch-icon.png" />
   <meta name="theme-color" content="#17a2a2" />
   <meta property="og:title" content="MedCross — Medical Crossword" />
-  <meta property="og:description" content="Learn medical terminology the fun way — a crossword game built for students and clinicians." />
+  <meta property="og:description" content="Learn medical terminology the fun way — puzzles, trivia, and 1v1 battles for students and clinicians." />
   <meta property="og:image" content="https://yoavtoren.github.io/icon-light-512.png" />
   <style>
-    :root { color-scheme: light dark; }
+    :root {
+      color-scheme: light dark;
+      --teal: #17a2a2;
+      --teal-deep: #0d7d8c;
+      --bg: #f4f6f8;
+      --ink: #16232e;
+      --card: #ffffff;
+      --muted: #47606f;
+      --faint: #7c94a4;
+      --line: rgba(20, 40, 60, 0.08);
+      --shadow: 0 12px 40px rgba(20, 40, 60, 0.12);
+      --tile-shadow: 0 8px 24px -12px rgba(13, 125, 140, 0.35);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0e1620;
+        --ink: #eef4f8;
+        --card: #16222e;
+        --muted: #9fb3c2;
+        --faint: #7c94a4;
+        --line: rgba(255, 255, 255, 0.08);
+        --shadow: none;
+        --tile-shadow: 0 8px 24px -14px rgba(0, 0, 0, 0.6);
+      }
+    }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -20,23 +44,19 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: #f4f6f8;
-      color: #16232e;
-      padding: 24px;
-    }
-    @media (prefers-color-scheme: dark) {
-      body { background: #0e1620; color: #eef4f8; }
-      .card { background: #16222e !important; box-shadow: none !important; }
-      .clue { color: #9fb3c2 !important; }
+      background: var(--bg);
+      color: var(--ink);
+      padding: 32px 20px;
+      -webkit-font-smoothing: antialiased;
     }
     .card {
-      max-width: 460px;
+      max-width: 560px;
       width: 100%;
-      background: #ffffff;
-      border-radius: 22px;
-      padding: 40px 32px;
+      background: var(--card);
+      border-radius: 24px;
+      padding: 44px 34px 34px;
       text-align: center;
-      box-shadow: 0 12px 40px rgba(20, 40, 60, 0.12);
+      box-shadow: var(--shadow);
     }
     .logo-wrap {
       position: relative;
@@ -73,25 +93,64 @@
       from { opacity: 0; transform: translateY(10px) scale(0.94); }
       to   { opacity: 1; transform: none; }
     }
-    @media (prefers-reduced-motion: reduce) {
-      .logo { animation: none; transition: none; }
-    }
-    h1 { font-size: 28px; letter-spacing: -0.5px; margin-bottom: 6px; }
-    .tag { font-size: 15px; color: #17a2a2; font-weight: 600; margin-bottom: 20px; }
-    p { font-size: 16px; line-height: 1.5; color: #47606f; margin-bottom: 14px; }
-    .clue { font-size: 13px; color: #7c94a4; margin-top: 24px; }
+    h1 { font-size: 30px; letter-spacing: -0.5px; margin-bottom: 6px; }
+    .tag { font-size: 15px; color: var(--teal); font-weight: 600; margin-bottom: 18px; }
+    .lede { font-size: 16px; line-height: 1.55; color: var(--muted); margin: 0 auto 26px; max-width: 420px; }
     a.btn {
       display: inline-block;
-      margin-top: 8px;
-      padding: 12px 26px;
-      background: #17a2a2;
+      padding: 13px 28px;
+      background: linear-gradient(180deg, var(--teal), var(--teal-deep));
       color: #fff;
       text-decoration: none;
       border-radius: 999px;
       font-weight: 600;
       font-size: 15px;
+      box-shadow: 0 10px 24px -10px rgba(13, 125, 140, 0.6);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
-    a.support { color: #17a2a2; }
+    a.btn:hover { transform: translateY(-2px); box-shadow: 0 16px 30px -12px rgba(13, 125, 140, 0.7); }
+    .features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin: 32px 0 8px;
+      text-align: left;
+    }
+    @media (max-width: 480px) {
+      .features { grid-template-columns: 1fr; }
+    }
+    .feature {
+      background: linear-gradient(180deg, rgba(23,162,162,0.06), transparent);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 16px 14px;
+      box-shadow: var(--tile-shadow);
+    }
+    .feature .ico {
+      width: 34px; height: 34px;
+      border-radius: 11px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      background: linear-gradient(180deg, var(--teal), var(--teal-deep));
+      box-shadow: 0 6px 14px -6px rgba(13,125,140,0.55);
+      margin-bottom: 10px;
+    }
+    .feature h3 { font-size: 14px; letter-spacing: -0.2px; margin-bottom: 4px; }
+    .feature p { font-size: 12.5px; line-height: 1.45; color: var(--muted); }
+    .foot {
+      margin-top: 26px;
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+      font-size: 13px;
+      color: var(--faint);
+      line-height: 1.7;
+    }
+    .foot a { color: var(--teal); text-decoration: none; }
+    .foot a:hover { text-decoration: underline; }
+    .dot { color: var(--line); margin: 0 8px; }
+    @media (prefers-reduced-motion: reduce) {
+      .logo, a.btn { animation: none; transition: none; }
+    }
   </style>
 </head>
 <body>
@@ -104,9 +163,34 @@
     </div>
     <h1>MedCross</h1>
     <div class="tag">Medical Crossword</div>
-    <p>Learn medical terminology the fun way — a crossword game built for students and clinicians.</p>
+    <p class="lede">Learn medical terminology the fun way — crossword puzzles, quick-fire trivia, and live 1v1 battles, built for students and clinicians.</p>
     <a class="btn" href="https://apps.apple.com/app/id6761099081">Download on the App Store</a>
-    <p class="clue">Support &amp; questions: <a class="support" href="mailto:yoavtoren@gmail.com">yoavtoren@gmail.com</a></p>
+
+    <section class="features" aria-label="Features">
+      <div class="feature">
+        <div class="ico" aria-hidden="true">🧩</div>
+        <h3>Daily puzzles</h3>
+        <p>Hundreds of medical crosswords, from anatomy to pharmacology.</p>
+      </div>
+      <div class="feature">
+        <div class="ico" aria-hidden="true">⚔️</div>
+        <h3>Trivia &amp; battles</h3>
+        <p>Test yourself, then go head-to-head in live 1v1 match play.</p>
+      </div>
+      <div class="feature">
+        <div class="ico" aria-hidden="true">🎯</div>
+        <h3>Guided path</h3>
+        <p>A curriculum that adapts as you learn, with progress and stats.</p>
+      </div>
+    </section>
+
+    <div class="foot">
+      Support &amp; questions: <a href="mailto:yoavtoren@gmail.com">yoavtoren@gmail.com</a>
+      <br />
+      <a href="https://apps.apple.com/app/id6761099081">App Store</a>
+      <span class="dot">•</span>
+      <a href="https://yoavtoren.github.io/medcross-privacy/">Privacy Policy</a>
+    </div>
   </main>
 </body>
 </html>
