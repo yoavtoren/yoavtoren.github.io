@@ -73,6 +73,12 @@ footer{border-top:1px solid var(--line);padding-top:28px;color:var(--muted);font
 .kpi .k{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;text-align:center}
 .kpi .k .v{font-size:26px;font-weight:900;color:var(--teal-deep);direction:ltr}
 .kpi .k .l{font-size:13.5px;color:var(--muted);margin-top:4px}
+a.ext{color:var(--teal-deep);font-weight:700;text-decoration:none;border-bottom:2px solid #bfe0dc}
+a.ext:hover{border-bottom-color:var(--teal)}
+.tools{background:linear-gradient(180deg,#ffffff,#f4f8f6);border:2px solid var(--teal);border-radius:18px;padding:24px 26px;margin-bottom:48px}
+.tools h2{font-size:22px;font-weight:900;margin-bottom:4px}
+.tools .primary{background:#eef7f5;border:1px solid #cfe6e2;border-radius:14px;padding:16px 18px;margin:14px 0}
+.tools table td:first-child{white-space:nowrap;font-weight:700}
 </style>
 </head>
 <body>
@@ -93,6 +99,7 @@ footer{border-top:1px solid var(--line);padding-top:28px;color:var(--muted);font
 <nav class="toc">
   <h2>תוכן העניינים</h2>
   <ol>
+    <li><a href="#tools">הכלים — לאן נכנסים בפועל</a></li>
     <li><a href="#strategy">האסטרטגיה בפסקה אחת + מתמטיקת היעד</a></li>
     <li><a href="#budget">חלוקת תקציב — 5,000 ₪</a></li>
     <li><a href="#character">הדמות הקבועה — ד"ר אמילי קרטר (4 זוויות)</a></li>
@@ -107,6 +114,35 @@ footer{border-top:1px solid var(--line);padding-top:28px;color:var(--muted);font
     <li><a href="#risks">הנחות, סיכונים ומה מודדים</a></li>
   </ol>
 </nav>
+
+
+<section class="tools" id="tools">
+  <h2>הכלים — לאן נכנסים בפועל</h2>
+  <p class="secsub" style="margin-bottom:8px">כל מה שהתוכנית דורשת, במקום אחד. רק אחד מהם עולה כסף.</p>
+
+  <div class="primary">
+    <p style="margin-bottom:6px"><strong>אתר הווידאו הראשי — כאן מפיקים את כל הסרטונים:</strong></p>
+    <p style="font-size:21px;margin-bottom:8px"><a class="ext" href="https://replicate.com" target="_blank" rel="noopener">replicate.com</a></p>
+    <p style="margin-bottom:0">זה האתר היחיד שצריך. הוא נותן את <strong>כל מודלי הווידאו תחת מפתח אחד ובחשבון אחד</strong> — Seedance, Kling, Hailuo ו-Veo — בתשלום לפי שימוש בלבד, בלי מנוי חודשי ובלי התחייבות. נרשמים, מוסיפים כרטיס, מייצרים API Token בעמוד ה-Account, ומדביקים אותו ב-<code class="inline">.env</code>. קונים קרדיט של 50$ בכל פעם, לא יותר.</p>
+  </div>
+
+  <div class="tablewrap"><table>
+    <tr><th>כלי</th><th>למה</th><th class="num">עלות</th></tr>
+    <tr><td><a class="ext" href="https://replicate.com" target="_blank" rel="noopener">Replicate</a></td><td>הפקת כל קליפי הווידאו — כל המודלים תחת מפתח אחד</td><td class="num">לפי שימוש</td></tr>
+    <tr><td><a class="ext" href="https://gemini.google.com" target="_blank" rel="noopener">Gemini</a></td><td>תמונות הדמות של ד"ר קרטר + הפקת האאוטרו ושוטי ההוק במכסת Veo</td><td class="num">כלול במנוי</td></tr>
+    <tr><td><a class="ext" href="https://searchads.apple.com" target="_blank" rel="noopener">Apple Search Ads</a></td><td>לתפוס חיפושים בסטור — רק משבוע 3</td><td class="num">2,300 ₪</td></tr>
+    <tr><td><a class="ext" href="https://developers.facebook.com" target="_blank" rel="noopener">Meta for Developers</a></td><td>הרשאות ו-webhook לסוכן האינסטגרם</td><td class="num">חינם</td></tr>
+    <tr><td><a class="ext" href="https://render.com" target="_blank" rel="noopener">Render</a></td><td>אירוח שרת הסוכן</td><td class="num">שכבת חינם</td></tr>
+    <tr><td><a class="ext" href="https://cloudinary.com" target="_blank" rel="noopener">Cloudinary</a></td><td>כתובת ציבורית לקובץ, כדי שאינסטגרם תוכל למשוך אותו</td><td class="num">שכבת חינם</td></tr>
+    <tr><td><a class="ext" href="https://developers.tiktok.com" target="_blank" rel="noopener">TikTok for Developers</a></td><td>העלאה אוטומטית לטיקטוק (דורש אישור)</td><td class="num">חינם</td></tr>
+  </table></div>
+
+  <p style="margin-bottom:0"><strong>המודלים שהצנרת מריצה ב-Replicate:</strong>
+  <a class="ext" href="https://replicate.com/bytedance/seedance-1-pro" target="_blank" rel="noopener">Seedance Pro</a> לשוטים בלי הדמות,
+  <a class="ext" href="https://replicate.com/kwaivgi/kling-v2.1" target="_blank" rel="noopener">Kling</a> לשוטים עם ד"ר קרטר (תומך ברפרנס תמונה),
+  <a class="ext" href="https://replicate.com/bytedance/seedance-1-lite" target="_blank" rel="noopener">Seedance Lite</a> לטיוטות זולות.
+  לפני ריצה ראשונה שווה לוודא בעמוד של כל מודל שהגרסה עדכנית.</p>
+</section>
 
 <!-- ============ 1. STRATEGY ============ -->
 <section id="strategy">
@@ -1927,7 +1963,7 @@ STYLE: cinematic medical drama, anamorphic 35mm look, shallow depth of field, vo
   <p class="secsub">Replicate נבחר כי הוא נותן את כל המודלים (Seedance, Kling, Hailuo, Veo) תחת מפתח אחד, בתשלום לפי שימוש בלבד, בלי מנוי. קונים קרדיט של 50–100$ בכל פעם.</p>
 
   <h3>שלב אחר שלב</h3>
-  <div class="step"><div class="n">1</div><div>נרשמים ב-<code class="inline">replicate.com</code>, מוסיפים אמצעי תשלום, ומייצרים API Token בעמוד ה-Account.</div></div>
+  <div class="step"><div class="n">1</div><div>נרשמים ב-<a class="ext" href="https://replicate.com" target="_blank" rel="noopener">replicate.com</a>, מוסיפים אמצעי תשלום, ומייצרים API Token בעמוד ה-Account. זה האתר היחיד שצריך — כל מודלי הווידאו יושבים שם תחת מפתח אחד.</div></div>
   <div class="step"><div class="n">2</div><div>בתיקיית עבודה חדשה במחשב: <code class="inline">mkdir medcross-videos && cd medcross-videos && npm init -y && npm i replicate dotenv</code></div></div>
   <div class="step"><div class="n">3</div><div>יוצרים קובץ <code class="inline">.env</code> עם שורה אחת: <code class="inline">REPLICATE_API_TOKEN=r8_xxx</code> (ולא שוכחים להוסיף אותו ל-<code class="inline">.gitignore</code>).</div></div>
   <div class="step"><div class="n">4</div><div>שומרים את הפרומפטים כ-<code class="inline">episodes.json</code> — מערך של פרקים, כל פרק עם מערך שוטים (מעתיקים מהעמוד הזה).</div></div>
