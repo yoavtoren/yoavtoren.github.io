@@ -228,7 +228,34 @@ STYLE: cinematic medical drama, anamorphic 35mm look, shallow depth of field, vo
     <p><strong>סגנון:</strong> דרמה רפואית קולנועית, מראה אנמורפי 35 מ"מ, עומק שדה רדוד, תאורה נפחית, גריידינג טורקיז-ענבר, פוטוריאליסטי, 4K, סטינג מוזיקלי אופטימי עדין. אנכי 9:16.</p>
   </div></details>
   <div class="note-ok"><strong>טיפ:</strong> להפיק גם וריאציה שנייה של האאוטרו (ניסוח שונה של אותו משפט) ולהחליף ביניהן כל כמה סרטונים — זה מונע "עיוורון קריאייטיב" אצל עוקבים קבועים, בלי לשלם על הפקה לכל פרק.</div>
-</section>
+
+  <h3>למה המסך באאוטרו חייב להיות אמיתי — ואיך מפיקים אותו</h3>
+  <div class="note-warn"><strong>מגבלה שחשוב להבין לפני שמבזבזים מכסה:</strong> מודל וידאו <strong>לא מסוגל</strong> לצייר ממשק ספציפי מתוך תיאור טקסטואלי. גם אם תתאר במדויק את מסך MedCross, כל טייק ייתן פרשנות אחרת ל"אפליקציית תשבץ" — ואף אחת מהן לא באמת שלך. זו מגבלה מהותית, לא עניין של ניסוח פרומפט.</div>
+  <div class="card">
+    <p><strong>הפתרון: לפצל את האאוטרו לשניים.</strong> ד"ר קרטר מדברת ומרימה טלפון (הפקת AI — הפרצוף והתנועה הם מה שהמודל טוב בו), ואז <strong>חיתוך קשה לצילום מסך אמיתי של האפליקציה</strong> שהוקלט מהסימולטור. זה לא רק מדויק — זה גם ממיר טוב יותר, כי צופים מזהים ממשק אמיתי ו"ככה זה נראה באמת" משכנע יותר מרינדור מלוטש.</p>
+    <p>הקליפ הזה כבר נבנה ונמצא אצלך: <code class="inline">assets/app_tail.mp4</code> — 9 שניות של מסך הבית האמיתי ורשת תשבץ אמיתית עם הגדרה רפואית, עם קריאה לפעולה שנכנסת ב-fade בסוף.</p>
+  </div>
+  <h4>איך מקליטים חומר גלם חדש</h4>
+  <pre class="codeblock" dir="ltr"><code># 1. boot the simulator and install the debug build
+xcrun simctl boot "iPhone 17"
+xcrun simctl install booted ~/Library/Developer/Xcode/DerivedData/MedCross-*/Build/Products/Debug-iphonesimulator/MedCross.app
+
+# 2. the debug build needs Metro running
+cd ~/Apps/MedicalCrossword && npx react-native start
+
+# 3. launch, then record (Ctrl-C to stop)
+xcrun simctl launch booted com.yoav.medcross
+xcrun simctl io booted recordVideo --codec h264 --force ~/Apps/medcross-videos/recordings/home.mp4
+xcrun simctl io booted recordVideo --codec h264 --force ~/Apps/medcross-videos/recordings/grid.mp4
+
+# 4. build the tail clip
+cd ~/Apps/medcross-videos && node apptail.mjs</code></pre>
+  <details><summary>הסבר מפורט בעברית — מה הסקריפט עושה ומה כדאי להקליט</summary><div class="body">
+    <p><strong>מה <code class="inline">apptail.mjs</code> עושה:</strong> הקלטות הסימולטור הן 1206×2622 — גבוה יותר מ-9:16 — ולכן הוא מקטין לרוחב 1080 וחותך מהמרכז ל-1920, מחבר את הקטעים, ומטמיע קריאה לפעולה שנכנסת ב-fade ב-3.5 השניות האחרונות. הכל מצויר ב-Node canvas (לא ב-ffmpeg) מאותה סיבה כמו כרטיס התשבץ.</p><p><strong>הכפתור בנוי לפי מטריאל ה-Enamel של האפליקציה</strong> — צל מגע מגוון בצבע הפנים, שפה תחתונה כהה, גרדיאנט חד-גוני בטורקיז המותג (#0D9488 ל-#14B8A6), וברק ספקולרי אחד בחלק העליון. לא כפתור שטוח וגנרי. חשוב לא פחות: הוא ממוקם נמוך, מעל אזור המקלדת — <strong>אסור שיכסה את ההגדרה הרפואית</strong>, כי היא ההוק של הפריים. מי שמכסה את ההגדרה בשביל ה-CTA מוחק בדיוק את מה שגורם לצופה לעצור.</p>
+    <p><strong>מה כדאי להקליט:</strong> מסך הבית (הלוגו, הכותרת, הינשוף) לכ-4 שניות, ורשת תשבץ פתוחה עם הגדרה רפואית קריאה לכ-5 שניות. רשת עם הגדרה אמיתית היא הפריים שמוכר — היא מראה בדיוק מה הצופה יקבל אם יוריד.</p>
+    <p><strong>ניווט בסימולטור בלי לגעת בעכבר:</strong> <code class="inline">idb ui tap X Y --udid UDID</code>, כשהקואורדינטות הן פיקסלים מהצילום חלקי 3. המסלול לרשת: סגירת מודל Lucky Spin ‣ Puzzles ‣ Morphology ‣ Enter Morphology ‣ שלב פעיל ‣ Start Level.</p>
+    <p><strong>שים לב:</strong> בבילד Debug חייבים ש-Metro ירוץ, אחרת המסך נתקע על "Loading from Metro...".</p>
+  </div></details></section>
 
 <!-- ============ 5. COSTS ============ -->
 <section id="costs">
