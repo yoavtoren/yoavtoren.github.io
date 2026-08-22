@@ -157,29 +157,44 @@ footer{border-top:1px solid var(--line);padding-top:28px;color:var(--muted);font
 
   <h3>איך שומרים על עקביות דמות בין סרטונים</h3>
   <div class="step"><div class="n">1</div><div><strong>מייצרים את 4 הסטילסים למטה באותה שיחת Gemini</strong> (Imagen / Nano Banana, כלול במנוי Pro שלך — 0 ₪): מפיקים את זווית 1, ואז לכל זווית נוספת מצרפים את התמונה הראשונה לפרומפט ומוסיפים "same woman, exact same face". בוחרים את הסט הטוב ביותר ושומרים כ"קאנון".</div></div>
-  <div class="step"><div class="n">2</div><div><strong>כל שוט שבו הדמות מופיעה נוצר כ-Image-to-Video</strong>: מזינים את תמונת הקאנון כתמונת רפרנס (Kling ו-Hailuo תומכים ברפרנס דמות; ב-Veo משתמשים ב-Ingredients/first-frame) + מדביקים את תיאור הדמות המילולי הזהה. תמונה + טקסט ביחד — זה מה ששומר על אותו פרצוף ב-60 פרקים.</div></div>
-  <div class="step"><div class="n">3</div><div><strong>שוטים 1–3 (ללא הדמות) חופשיים לגמרי</strong> — שם רצים על המודלים הזולים בלי חשש לעקביות.</div></div>
+  <div class="step"><div class="n">2</div><div><strong>שומרים כל תמונה בשם המדויק מהטבלה למטה</strong>, בתיקייה <code class="inline">~/Apps/medcross-videos/character/</code>. הסוכן בוחר לבד איזו זווית לצרף לכל שוט — אין מה להגדיר.</div></div>
+  <div class="step"><div class="n">3</div><div><strong>כל שוט שבו הדמות מופיעה נוצר כ-Image-to-Video</strong>: הסוכן מצרף את תמונת הרפרנס המתאימה + את תיאור הדמות המילולי הזהה. תמונה + טקסט ביחד — זה מה ששומר על אותו פרצוף ב-60 פרקים.</div></div>
+  <div class="step"><div class="n">4</div><div><strong>שוטים 1–3 (ללא הדמות) חופשיים לגמרי</strong> — שם רצים על המודלים הזולים בלי חשש לעקביות.</div></div>
+
+  <h3>שמות הקבצים — מה לקרוא לכל תמונה</h3>
+  <p>מוסכמת שמות אחת, בלי קובץ הגדרות: מספיק לשמור בשם הנכון והסוכן משתמש בתמונה אוטומטית. סיומות <code class="inline">.png</code>, <code class="inline">.jpg</code> ו-<code class="inline">.webp</code> כולן עובדות.</p>
+  <div class="tablewrap"><table>
+    <tr><th>שם הקובץ</th><th>איזה פרומפט</th><th>מה הסוכן עושה איתו</th></tr>
+    <tr><td><code class="inline">emily_front.png</code></td><td>זווית 1 — חזית</td><td><strong>חובה.</strong> תמונת הקאנון. רפרנס ברירת מחדל לכל שוט שבו היא מופיעה, וגם הבסיס לאאוטרו.</td></tr>
+    <tr><td><code class="inline">emily_threequarter.png</code></td><td>זווית 2 — שלושה-רבעי</td><td>רפרנס ל<strong>שוט 4</strong> (ד"ר קרטר בזירה, ליד המיטה).</td></tr>
+    <tr><td><code class="inline">emily_closeup.png</code></td><td>זווית 4 — קלוז-אפ</td><td>רפרנס ל<strong>שוט 5</strong> (החידון, ישר למצלמה).</td></tr>
+    <tr><td><code class="inline">emily_profile.png</code></td><td>זווית 3 — פרופיל בהליכה</td><td>רזרבה. לא בשימוש אוטומטי — מצוין לתמונות פרופיל, פוסטרים ותמונות ממוזערות.</td></tr>
+    <tr><td><code class="inline">rejects/</code></td><td>—</td><td>כל מה שייצרת ולא בחרת. לא למחוק את המנצחות: יצירה מחדש משנה לה את הפנים.</td></tr>
+  </table></div>
+  <div class="hl"><b>בדיקה לפני שמוציאים כסף:</b> <code class="inline">node character.mjs</code> מדפיס אילו קבצים קיימים, ברזולוציה שלהם, ומתריע אם תמונה לא בפורמט פורטרט או אם קובץ האאוטרו חסר. להריץ פעם אחת אחרי ששמרת את התמונות ולפני ההרצה הראשונה בתשלום. יש גם קובץ <code class="inline">character/HOW_TO_NAME.md</code> בתוך התיקייה עצמה עם אותם כללים.</div>
+  <div class="note-ok"><strong>למה לא תמונה אחת לכל השוטים?</strong> כי רפרנס שדומה לקומפוזיציה המבוקשת נותן תוצאה טובה משמעותית. שוט 5 הוא קלוז-אפ ישיר למצלמה — רפרנס קלוז-אפ מוריד את מספר הנסיונות הכושלים, וזה חיסכון ישיר בכסף. אם שמרת רק את <code class="inline">emily_front.png</code>, הכל עדיין עובד: הסוכן נופל אחורה אליה בכל שוט.</div>
+  <div class="note-warn"><strong>כללי אצבע לתמונות:</strong> חיתוך פורטרט (3:4 או 9:16) — רפרנס לרוחב גורם למודל למסגר אותה מחדש; לפחות 768 פיקסלים בצלע הקצרה, רצוי 1024+; אותה תאורה ואותו לבוש בכל הארבע — הסקראבס הטורקיז מתחת לחלוק הלבן הוא חלק מהזהות שלה, לא בחירת תלבושת.</div>
   <div class="hl"><b>למה "אטרקטיבית" ולא "סקסית בוטה"?</b> שתי סיבות פרקטיות: מסנני הבטיחות של Gemini/Imagen דוחים ניסוחים מיניים מפורשים — הפרומפטים למטה מנוסחים בדיוק על הקו שעובר; והקהל שלנו (סטודנטים ואנשי רפואה) עוקב אחרי דמות שהיא שילוב של כריזמה ומקצועיות. הניסוח "effortlessly striking" מייצר בדיוק את זה.</div>
 
-  <h3>זווית 1 — חזית, גוף עליון (תמונת הקאנון הראשית)</h3>
+  <h3>זווית 1 — חזית, גוף עליון <span style="color:var(--muted);font-weight:500;font-size:16px">→ נשמר כ-<code class="inline">emily_front.png</code> (חובה)</span></h3>
   <pre class="prompt" dir="ltr"><code>Photorealistic portrait, vertical 3:4. Dr. Emily Carter: a strikingly beautiful woman in her late 30s, warm olive skin, dark brown hair in a low bun with a few loose strands framing her face, sharp hazel eyes with a confident magnetic gaze, subtle defined makeup, soft red-tinted lips, small silver stud earrings. She wears a fitted teal scrub top that flatters her athletic figure under an open white doctor's coat, stethoscope draped around her neck, plain ID badge with no readable text. Front view, chest-up, standing tall with relaxed confident posture, a hint of a knowing half-smile. Bright modern hospital corridor softly blurred behind her, cinematic beauty lighting with a warm key light from camera-left, 85mm portrait lens, shallow depth of field. No text, no watermark.</code></pre>
   <details><summary>תרגום מפורט לעברית</summary><div class="trans">
     <p>פורטרט פוטוריאליסטי, אנכי 3:4. ד"ר אמילי קרטר: אישה יפה באופן בולט בסוף שנות ה-30, עור זית חם, שיער חום כהה אסוף בפקעת נמוכה עם קווצות משוחררות שממסגרות את הפנים, עיניים בצבע אגוז חדות עם מבט בטוח ומגנטי, איפור עדין ומוקפד, שפתיים בגוון אדמדם רך, עגילי כסף קטנים. לובשת חולצת סקראבס טורקיז מחויטת שמחמיאה למבנה גוף אתלטי, תחת חלוק לבן פתוח, סטטוסקופ על הצוואר, תג ללא טקסט קריא. מבט חזיתי, מהחזה ומעלה, עמידה זקופה ורגועה, רמז לחצי חיוך יודע. מסדרון בית חולים מודרני ומטושטש ברקע, תאורת יופי קולנועית עם אור מפתח חם משמאל, עדשת 85 מ"מ, עומק שדה רדוד. בלי טקסט, בלי סימן מים.</p>
   </div></details>
 
-  <h3>זווית 2 — שלושה-רבעי, נשענת על הקיר</h3>
+  <h3>זווית 2 — שלושה-רבעי, נשענת על הקיר <span style="color:var(--muted);font-weight:500;font-size:16px">→ נשמר כ-<code class="inline">emily_threequarter.png</code></span></h3>
   <pre class="prompt" dir="ltr"><code>Photorealistic, vertical 3:4, same woman, exact same face (attach Angle 1 image as reference). Dr. Emily Carter (late-30s, warm olive skin, dark brown low bun with loose strands, hazel eyes, fitted teal scrubs under an open white coat, stethoscope) leans one shoulder against a hospital corridor wall in a relaxed three-quarter pose, arms loosely crossed, head tilted slightly, giving the camera an amused, slightly challenging smile — the look of someone who already knows the diagnosis. One knee bent, effortlessly elegant body language. Golden-hour light spilling through tall windows behind her, rim light on her hair, cinematic, 50mm lens, shallow depth of field. No text, no watermark.</code></pre>
   <details><summary>תרגום מפורט לעברית</summary><div class="trans">
     <p>פוטוריאליסטי, אנכי 3:4, אותה אישה, בדיוק אותם פנים (לצרף את תמונת זווית 1 כרפרנס). ד"ר אמילי קרטר (התיאור הקבוע) נשענת בכתף אחת על קיר מסדרון בית החולים בפוזת שלושה-רבעי רגועה, ידיים משולבות ברפיון, ראש מוטה מעט, מחייכת למצלמה חיוך משועשע ומעט מתגרה — מבט של מישהי שכבר יודעת את האבחנה. ברך אחת כפופה, שפת גוף אלגנטית בלי מאמץ. אור שעת זהב נשפך מחלונות גבוהים מאחוריה, תאורת שוליים על השיער, קולנועי, עדשת 50 מ"מ, עומק שדה רדוד. בלי טקסט, בלי סימן מים.</p>
   </div></details>
 
-  <h3>זווית 3 — פרופיל בהליכה, מבט אחורה</h3>
+  <h3>זווית 3 — פרופיל בהליכה, מבט אחורה <span style="color:var(--muted);font-weight:500;font-size:16px">→ נשמר כ-<code class="inline">emily_profile.png</code></span></h3>
   <pre class="prompt" dir="ltr"><code>Photorealistic, vertical 3:4, same woman, exact same face (attach Angle 1 image as reference). Dr. Emily Carter (late-30s, warm olive skin, dark brown low bun with loose strands, hazel eyes, fitted teal scrubs under an open white coat, stethoscope) walks down a sleek hospital corridor in profile, white coat flowing with her stride, caught mid-step glancing back over her shoulder at the camera with a confident spark in her eyes. Dynamic, graceful movement, one loose strand of hair across her cheek. Cool teal corridor tones with warm practical lights, slight motion blur on the background, cinematic tracking-shot feel, 35mm lens. No text, no watermark.</code></pre>
   <details><summary>תרגום מפורט לעברית</summary><div class="trans">
     <p>פוטוריאליסטי, אנכי 3:4, אותה אישה, בדיוק אותם פנים (לצרף את תמונת זווית 1 כרפרנס). ד"ר אמילי קרטר (התיאור הקבוע) צועדת במסדרון בית חולים נקי בצילום פרופיל, החלוק הלבן מתנופף עם הצעד, נתפסת באמצע צעד כשהיא מעיפה מבט לאחור מעבר לכתף אל המצלמה עם ניצוץ בטוח בעיניים. תנועה דינמית וחיננית, קווצת שיער משוחררת על הלחי. גוני טורקיז קרירים במסדרון עם נקודות אור חמות, טשטוש תנועה קל ברקע, תחושת צילום עוקב קולנועי, עדשת 35 מ"מ. בלי טקסט, בלי סימן מים.</p>
   </div></details>
 
-  <h3>זווית 4 — קלוז-אפ, מבט ישיר (לתמונות הפרופיל ברשתות)</h3>
+  <h3>זווית 4 — קלוז-אפ, מבט ישיר <span style="color:var(--muted);font-weight:500;font-size:16px">→ נשמר כ-<code class="inline">emily_closeup.png</code></span></h3>
   <pre class="prompt" dir="ltr"><code>Photorealistic close-up portrait, vertical 3:4, same woman, exact same face (attach Angle 1 image as reference). Dr. Emily Carter (late-30s, warm olive skin, dark brown low bun with loose strands, hazel eyes, teal scrub top, stethoscope just visible at frame bottom): head-and-shoulders close-up, direct eye contact with the camera, chin slightly lowered, a slow confident smile just beginning at the corner of her mouth, one eyebrow minimally raised — magnetic, warm, a little playful. Flawless natural skin texture, catchlights in her eyes, dark blurred clinical background, dramatic soft key light sculpting her cheekbones, 105mm lens. No text, no watermark.</code></pre>
   <details><summary>תרגום מפורט לעברית</summary><div class="trans">
     <p>קלוז-אפ פוטוריאליסטי, אנכי 3:4, אותה אישה, בדיוק אותם פנים (לצרף את תמונת זווית 1 כרפרנס). ד"ר אמילי קרטר (התיאור הקבוע): צילום ראש-וכתפיים, קשר עין ישיר עם המצלמה, סנטר מונמך מעט, חיוך איטי ובטוח שרק מתחיל בזווית הפה, גבה אחת מורמת מינימלית — מגנטית, חמה, קצת שובבה. טקסטורת עור טבעית ומושלמת, נצנוצי אור בעיניים, רקע קליני כהה ומטושטש, אור מפתח רך ודרמטי שמפסל את עצמות הלחיים, עדשת 105 מ"מ. בלי טקסט, בלי סימן מים.</p>
@@ -1891,6 +1906,7 @@ import Replicate from "replicate";
 import "dotenv/config";
 import fs from "node:fs";
 import path from "node:path";
+import { refForShot, resolveSlot } from "./character.mjs";
 
 const replicate = new Replicate({ auth: process.env.REPLICATE_API_TOKEN });
 
@@ -1914,10 +1930,8 @@ const tries = Number(args.tries ?? (args.pass === "draft" ? 3 : 2));
 const outDir = path.join("out", `ep${ep.id}`, args.pass);
 fs.mkdirSync(outDir, { recursive: true });
 
-// canonical character reference image (Angle 1 from your Gemini character sheet)
-const CHARACTER_REF = fs.existsSync("character/emily_canon.png")
-  ? fs.readFileSync("character/emily_canon.png")
-  : null;
+// reference angle per shot; see character.mjs for the naming convention
+if (!resolveSlot("front")) console.warn("! character/emily_front.png missing — run: node character.mjs");
 
 for (const shot of ep.shots.filter(s => wantedShots.includes(s.n))) {
   const hasCharacter = shot.n >= 4;
@@ -1931,8 +1945,8 @@ for (const shot of ep.shots.filter(s => wantedShots.includes(s.n))) {
       duration: 8,
       aspect_ratio: "9:16",
     };
-    if (hasCharacter && CHARACTER_REF && args.pass === "final")
-      input.image = CHARACTER_REF;               // identity lock via reference image
+    const refPath = hasCharacter && args.pass === "final" ? refForShot(shot.n) : null;
+    if (refPath) input.image = fs.readFileSync(refPath);   // identity lock
 
     console.log(`ep${ep.id} shot${shot.n} try${t} → ${model}`);
     try {
@@ -1950,7 +1964,7 @@ for (const shot of ep.shots.filter(s => wantedShots.includes(s.n))) {
 console.log("done. review clips in", outDir);</code></pre>
   <details><summary>הסבר מפורט בעברית — מה הסקריפט עושה</summary><div class="body">
     <p><strong>מבנה:</strong> הסקריפט קורא את <code class="inline">episodes.json</code>, מאתר את הפרק המבוקש, ומפיק כל שוט כקליפ נפרד של 8 שניות ביחס 9:16.</p>
-    <p><strong>שני מסלולים:</strong> במסלול <code class="inline">draft</code> הכל רץ על Seedance Lite הזול (לבדוק שהקומפוזיציה עובדת). במסלול <code class="inline">final</code> — שוטים 1–3 (בלי דמות) על Seedance Pro, ושוטים 4–5 (עם ד"ר אמילי) על Kling עם <strong>תמונת הרפרנס של הדמות</strong> שמוזנת כ-image — זה נועל את הזהות שלה.</p>
+    <p><strong>שני מסלולים:</strong> במסלול <code class="inline">draft</code> הכל רץ על Seedance Lite הזול (לבדוק שהקומפוזיציה עובדת). במסלול <code class="inline">final</code> — שוטים 1–3 (בלי דמות) על Seedance Pro, ושוטים 4–5 (עם ד"ר קרטר) על Kling עם <strong>תמונת הרפרנס המתאימה לזווית</strong> שמוזנת כ-image: שוט 4 מקבל את <code class="inline">emily_threequarter.png</code>, שוט 5 את <code class="inline">emily_closeup.png</code>, ושניהם נופלים אחורה ל-<code class="inline">emily_front.png</code> אם הן לא קיימות — זה נועל את הזהות שלה.</p>
     <p><strong>נסיונות:</strong> ברירת מחדל 3 נסיונות לטיוטה ו-2 לפיינל — בדיוק כמו תחשיב העלויות בסעיף 5. כל קליפ נשמר עם מספר גרסה, ואתה בוחר ידנית את המנצח.</p>
     <p><strong>עמידות:</strong> כישלון של קליפ בודד לא מפיל את כל הריצה — הוא נרשם וממשיכים.</p>
     <p><strong>מבנה episodes.json:</strong> <code class="inline">[{"id":"01","style":"STYLE: cinematic...","shots":[{"n":1,"text":"SHOT 1 / HOOK..."},...]}]</code> — מעתיקים את הטקסטים ישירות מסעיף 6.</p>
@@ -2152,7 +2166,7 @@ launchctl load ~/Library/LaunchAgents/com.medcross.pipeline.plist</code></pre>
   <h3>מה נשאר אנושי — ולמה בכוונה</h3>
   <div class="card">
     <ul>
-      <li><strong>תמונת הקאנון של ד"ר קרטר</strong> — נוצרת פעם אחת ב-Gemini ונשמרת כ-<code class="inline">character/emily_canon.png</code>. כל שוט 4–5 ננעל אליה. בלי הקובץ הזה הפרצוף שלה זז בין פרקים, ואז אין סדרה.</li>
+      <li><strong>תמונות הרפרנס של ד"ר קרטר</strong> — נוצרות פעם אחת ב-Gemini ונשמרות בתיקייה <code class="inline">character/</code> בשמות מסעיף 3. הסוכן בוחר לבד את הזווית המתאימה לכל שוט. לוודא עם <code class="inline">node character.mjs</code>. בלי הקבצים האלה הפרצוף שלה זז בין פרקים, ואז אין סדרה.</li>
       <li><strong>קובץ האאוטרו</strong> — <code class="inline">assets/outro_master.mp4</code>, גם הוא חד-פעמי.</li>
       <li><strong>שוטי ההוק בחינם</strong> — אפשר להפיק ידנית במכסת Gemini ולשמור כ-<code class="inline">out/epNN/final/shot1_WIN.mp4</code>; הסוכן מזהה קובץ קיים ולא מפיק אותו בתשלום. זה חוסך כשליש מעלות הפרק.</li>
       <li><strong>ההחלטה השבועית</strong> — איזו סדרה להמשיך ואיזו לעצור. את זה שום סקריפט לא יעשה במקומך, וזו ההחלטה היחידה שבאמת מזיזה את המספרים.</li>
