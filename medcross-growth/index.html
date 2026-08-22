@@ -102,6 +102,7 @@ footer{border-top:1px solid var(--line);padding-top:28px;color:var(--muted);font
     <li><a href="#api">חיבור API להפקת וידאו — Node.js + Replicate</a></li>
     <li><a href="#agent">סוכן AI לאינסטגרם וטיקטוק</a></li>
     <li><a href="#automation">הצנרת המלאה — כמה שיותר אוטומטי</a></li>
+    <li><a href="#orchestrator">סוכן האוטומציה — הצנרת שרצה לבד</a></li>
     <li><a href="#roadmap">מפת דרכים — 6 חודשים</a></li>
     <li><a href="#risks">הנחות, סיכונים ומה מודדים</a></li>
   </ol>
@@ -2104,9 +2105,65 @@ echo "→ $DIR/ep${EP}_full.mp4 ready. Add captions + ticking-clock SFX on the r
   </div>
 </section>
 
-<!-- ============ 10. ROADMAP ============ -->
+<!-- ============ 10. ORCHESTRATION AGENT ============ -->
+<section id="orchestrator">
+  <h2 class="sec">10 · סוכן האוטומציה — הצנרת שרצה לבד</h2>
+  <p class="secsub">כל מה שבסעיף 9 מתואר כשלבים, נארז כאן לסוכן אחד שמריץ פרק מפרומפט ועד קובץ מוכן לפרסום — עם התאוששות מנפילות, שער איכות חינמי, ותזמון לילי. הקוד כבר קיים ונבדק במחשב שלך בתיקייה <code class="inline">~/Apps/medcross-videos</code>.</p>
+
+  <div class="note-ok"><strong>מה כבר נבדק בפועל:</strong> הצנרת הורצה מקצה לקצה עם קליפים סינתטיים והפיקה קובץ באורך <strong>60.02 שניות</strong> בדיוק (5×8 שניות + 10 שניות חשיפה + 10 שניות אאוטרו), עם כיתוב מוכן לפוסט. שער האיכות זיהה ופסל אוטומטית קליפים שחורים ובחר את התקינים. מה שחסר כדי להריץ על אמת: מפתח Replicate, תמונת הקאנון של ד"ר קרטר, וקובץ האאוטרו.</p></div>
+
+  <h3>מה הסוכן עושה בכל הרצה</h3>
+  <div class="tablewrap"><table>
+    <tr><th>שלב</th><th>מה קורה</th><th>עלות</th></tr>
+    <tr><td><strong>finals</strong></td><td>מפיק את 5 השוטים ב-Replicate, 2 נסיונות לכל אחד. שוטים 4–5 מקבלים את תמונת ד"ר קרטר כרפרנס לנעילת זהות. קליפ שכבר קיים בדיסק — מדלג עליו.</td><td class="num">~$3.5</td></tr>
+    <tr><td><strong>pick</strong></td><td>מדרג את כל הנסיונות עם ffmpeg בלבד: מזהה קליפים שחורים, קפואים, או באורך שגוי, ומעתיק את המנצח ל-<code class="inline">shotN_WIN.mp4</code>. בלי מודל, בלי API.</td><td class="num">$0</td></tr>
+    <tr><td><strong>reveal</strong></td><td>מקפיא את הפריים האחרון של שוט 5 ומצייר עליו את כרטיס התשבץ — האות הראשונה של כל מילה, כל תו בתא ברוחב קבוע כמו בתשבץ אמיתי.</td><td class="num">$0</td></tr>
+    <tr><td><strong>assemble</strong></td><td>מנרמל את כל החלקים לאותם מפרטים (1080×1920, 30fps, אודיו 48kHz) ומשרשר: 5 שוטים + חשיפה + אאוטרו.</td><td class="num">$0</td></tr>
+    <tr><td><strong>qa</strong></td><td>בדיקה אחרונה על 40 השניות המצולמות בלבד, וכתיבת קובץ כיתוב מוכן עם מלכודת התגובות והאשטגים.</td><td class="num">$0</td></tr>
+  </table></div>
+
+  <h3>הפקודות שתשתמש בהן</h3>
+  <pre class="codeblock" dir="ltr"><code>cd ~/Apps/medcross-videos
+
+node pipeline.mjs --next 2        # build the next 2 unbuilt episodes, end to end
+node pipeline.mjs --ep 01         # build one specific episode
+node pipeline.mjs --status        # a table of where every episode stands
+node pipeline.mjs --ep 07 --redo final    # regenerate episode 7 from scratch
+
+node publish.mjs --ep 01 --dry    # upload + print the caption, post nothing
+node publish.mjs --ep 01          # post to Instagram Reels
+node publish.mjs --ep 01 --tiktok # also push to TikTok</code></pre>
+  <details><summary>הסבר מפורט בעברית — מה כל פקודה עושה</summary><div class="body">
+    <p><strong><code class="inline">--next N</code></strong> היא הפקודה היומיומית: הסוכן בוחר את N הפרקים הבאים שעוד לא הופקו, ומריץ כל אחד מהם דרך כל השלבים. הכל נרשם ב-<code class="inline">state.json</code>, ולכן אם נפלת באמצע (אינטרנט, מכסה, קרדיט שנגמר) — הרצה חוזרת ממשיכה בדיוק מהנקודה שנעצרה ולא מייצרת שוב קליפים ששולמו עליהם.</p>
+    <p><strong><code class="inline">--status</code></strong> מדפיס טבלה: איזה פרק באיזה שלב, אילו אזהרות איכות נרשמו, ואיפה משהו נתקע. זו התמונה השבועית שלך.</p>
+    <p><strong><code class="inline">--redo</code></strong> מאפס פרק לשלב מסוים. שימושי כשקליפ עבר את שער האיכות אבל פשוט לא מוצא חן בעיניך.</p>
+    <p><strong><code class="inline">publish.mjs --dry</code></strong> מעלה את הקובץ לאחסון ציבורי ומדפיס את הכיתוב בלי לפרסם — תמיד להריץ את זה לפני הפרסום האמיתי הראשון.</p>
+  </div></details>
+
+  <h3>הרצה לילית ללא נגיעה</h3>
+  <pre class="codeblock" dir="ltr"><code>cp ~/Apps/medcross-videos/com.medcross.pipeline.plist ~/Library/LaunchAgents/
+launchctl load ~/Library/LaunchAgents/com.medcross.pipeline.plist</code></pre>
+  <details><summary>הסבר בעברית — מה רץ בלילה ולמה זה בטוח</summary><div class="body">
+    <p>ב-02:30 כל לילה מריץ macOS את <code class="inline">run-daily.sh</code>: הוא בונה שני פרקים חדשים (ניתן לשינוי דרך <code class="inline">BUILD_PER_NIGHT</code>), מריץ את שער האיכות, ורושם הכל ל-<code class="inline">logs/</code>. בבוקר יש לך שני סרטונים מוכנים בתיקיית <code class="inline">ready/</code> עם קובץ כיתוב לכל אחד.</p>
+    <p><strong>ברירת המחדל היא לא לפרסם</strong> (<code class="inline">AUTO_PUBLISH=0</code>) — הסוכן בונה ועוצר. רק אחרי שראית כמה פרקים יוצאים טוב ואתה סומך על שער האיכות, משנים ל-<code class="inline">1</code>; ואז מתפרסמים אוטומטית רק פרקים שסיימו <strong>בלי אף אזהרה</strong>. פרק עם אזהרה תמיד ממתין לעין אנושית. זה הגבול הנכון בין אוטומציה לבין סיכון מותגי.</p>
+    <p><strong>בלימת עלויות:</strong> שני פרקים בלילה × ~$3.5 = כ-$7 ליום. בשבוע וחצי כאלה נגמר תקציב הווידאו — ולכן מומלץ להריץ לילית רק אחרי שהוכחת פורמט על 10 פרקים ידניים, ולהוריד ל-<code class="inline">BUILD_PER_NIGHT=1</code> כשרוצים לפרוס.</p>
+  </div></details>
+
+  <h3>מה נשאר אנושי — ולמה בכוונה</h3>
+  <div class="card">
+    <ul>
+      <li><strong>תמונת הקאנון של ד"ר קרטר</strong> — נוצרת פעם אחת ב-Gemini ונשמרת כ-<code class="inline">character/emily_canon.png</code>. כל שוט 4–5 ננעל אליה. בלי הקובץ הזה הפרצוף שלה זז בין פרקים, ואז אין סדרה.</li>
+      <li><strong>קובץ האאוטרו</strong> — <code class="inline">assets/outro_master.mp4</code>, גם הוא חד-פעמי.</li>
+      <li><strong>שוטי ההוק בחינם</strong> — אפשר להפיק ידנית במכסת Gemini ולשמור כ-<code class="inline">out/epNN/final/shot1_WIN.mp4</code>; הסוכן מזהה קובץ קיים ולא מפיק אותו בתשלום. זה חוסך כשליש מעלות הפרק.</li>
+      <li><strong>ההחלטה השבועית</strong> — איזו סדרה להמשיך ואיזו לעצור. את זה שום סקריפט לא יעשה במקומך, וזו ההחלטה היחידה שבאמת מזיזה את המספרים.</li>
+    </ul>
+  </div>
+  <div class="note-warn"><strong>הערה על מוזיקה וכתוביות:</strong> הסוכן מייצר וידאו ללא מוזיקה מכוונת וללא כתוביות מוטבעות. מומלץ להוסיף ב-CapCut תבנית קבועה (Auto-Captions + סאונד טיק-טק על החשיפה) — 3 דקות לסרטון, ומרוויח הרבה בשימור. אם רוצים גם את זה אוטומטי: שמים קובץ <code class="inline">assets/tick.m4a</code> והסוכן ישתול אותו בחשיפה לבד.</div>
+</section>
+
+<!-- ============ 11. ROADMAP ============ -->
 <section id="roadmap">
-  <h2 class="sec">10 · מפת דרכים — 6 חודשים</h2>
+  <h2 class="sec">11 · מפת דרכים — 6 חודשים</h2>
   <p class="secsub">כל חודש עם שער יציאה: אם לא עומדים בו — עוצרים ומתקנים לפני שממשיכים להוציא כסף.</p>
   <div class="tablewrap"><table>
     <tr><th>חודש</th><th>עושים</th><th class="num">הוצאה</th><th>שער יציאה</th></tr>
@@ -2119,9 +2176,9 @@ echo "→ $DIR/ep${EP}_full.mp4 ready. Add captions + ticking-clock SFX on the r
   </table></div>
 </section>
 
-<!-- ============ 11. RISKS ============ -->
+<!-- ============ 12. RISKS ============ -->
 <section id="risks">
-  <h2 class="sec">11 · הנחות, סיכונים, ומה מודדים כל שבוע</h2>
+  <h2 class="sec">12 · הנחות, סיכונים, ומה מודדים כל שבוע</h2>
   <div class="grid2">
     <div class="card">
       <h4>חמשת המספרים השבועיים</h4>
