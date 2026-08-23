@@ -153,19 +153,39 @@ a.ext:hover{border-bottom-color:var(--teal)}
   </div>
 
   <h3>מתמטיקת היעד: מה זה בכלל 20,000 ₪ בחודש?</h3>
-  <p>20,000 ₪ ≈ 5,400$ בחודש ≈ <strong>180$ ביום</strong>. הכנסה מאפליקציה = DAU × הכנסה ממוצעת למשתמש פעיל ליום (ARPDAU). באפליקציות טריוויה עם מודעות Rewarded + Interstitial ורכישות קטנות, ARPDAU סביר הוא 0.04$–0.08$.</p>
+  <p>20,000 ₪ ≈ 5,400$ בחודש ≈ <strong>180$ ביום</strong>. הכנסה מאפליקציה = DAU × הכנסה ממוצעת למשתמש פעיל ליום (ARPDAU).</p>
+  <p><strong>עדכון 2026-08-23 — המספר הזה נבנה מחדש מהחשיפות בפועל.</strong> הגרסה הקודמת הניחה 0.04$–0.08$ לפי בנצ'מרק של אפליקציות טריוויה. הפעם חישבנו מלמטה: כמה מודעות MedCross באמת מגישה למשתמש ביום, לפי הקצב שכתוב בקוד — ולא לפי ממוצע ענפי. התוצאה מאשרת את סדר הגודל אבל מזיזה את הבסיס למטה.</p>
   <div class="tablewrap"><table>
-    <tr><th>תרחיש</th><th class="num">ARPDAU</th><th class="num">DAU נדרש</th><th>מה זה דורש בפועל</th></tr>
-    <tr><td>פסימי</td><td class="num">$0.03</td><td class="num">6,000</td><td>ויראליות חזקה + שימור מצוין</td></tr>
-    <tr><td><strong>בסיס</strong></td><td class="num">$0.05</td><td class="num"><strong>3,600</strong></td><td>2–3 סרטונים "פוגעים" + שימור D30 של ~8%</td></tr>
-    <tr><td>אופטימי</td><td class="num">$0.08</td><td class="num">2,250</td><td>eCPM גבוה (ארה"ב) + IAP חזק</td></tr>
+    <tr><th>מיקום מודעה</th><th class="num">מוצע ליום</th><th class="num">מוגש בפועל</th><th>מה חוסם</th></tr>
+    <tr><td>Interstitial — לחיצת Play Now</td><td class="num">1.8</td><td class="num">0.6</td><td>שער "כל לחיצה שלישית"</td></tr>
+    <tr><td>Interstitial — סיום שלב</td><td class="num">2.7</td><td class="num">1.4</td><td>רצפה של 60 שניות בין מודעות</td></tr>
+    <tr><td>Rewarded — שני סלוטי מטבעות</td><td class="num">2.3</td><td class="num">0.6</td><td>Cooldown של 20 ו-90 דקות</td></tr>
+    <tr><td>Rewarded — הצלת לבבות וקלפים</td><td class="num">0.8</td><td class="num">0.3</td><td>רק כשנגמר המאגר</td></tr>
+    <tr><td><strong>סה"כ למשתמש פעיל ביום</strong></td><td class="num">7.6</td><td class="num"><strong>2.9</strong></td><td>—</td></tr>
   </table></div>
+  <p><strong>2.9 חשיפות ליום</strong> — זה המספר שכל המודל יושב עליו. "מוצע" = כמה פעמים האפליקציה מגיעה למיקום המודעה; "מוגש בפועל" = כמה שורדות את השערים, ה-cooldowns והנכונות של המשתמש לצפות. הקצב, ה-cooldowns וערכי התגמול נקראו מקוד המקור; מספר הסשנים ביום ושיעור המעורבות עם Rewarded הם הערכות.</p>
+  <h3>מדרגות ההכנסה — מ-0 עד לקצב מלא</h3>
+  <p>ב-2026-08-23 הוחלף כל מנוע הפרסומות מ-Google AdMob ל-<strong>AppLovin MAX</strong>, אחרי שחשבון ה-AdMob נתקע בלולאת דחייה אוטומטית בלי מסלול ערעור אנושי. זה משנה את התמונה: חשבון תיווך חדש לא מתחיל לעבוד ביום הראשון. הוא מתחמם.</p>
+  <div class="tablewrap"><table>
+    <tr><th>מדרגה</th><th class="num">Fill</th><th class="num">ARPDAU מודעות</th><th class="num">+ IAP</th><th class="num">DAU ל-20,000 ₪</th></tr>
+    <tr><td><strong>1 · התנעה קרה</strong><br><span style="opacity:.7">שבועות 1–3 אחרי אישור</span></td><td class="num">40%</td><td class="num">$0.007</td><td class="num">$0.022</td><td class="num">8,090</td></tr>
+    <tr><td><strong>2 · רשת אחת, מיוצבת</strong><br><span style="opacity:.7">חודשים 2–3</span></td><td class="num">85%</td><td class="num">$0.022</td><td class="num">$0.037</td><td class="num">4,810</td></tr>
+    <tr><td><strong>3 · תיווך מלא</strong><br><span style="opacity:.7">חודש 4+, רק אם מחברים רשתות</span></td><td class="num">95%</td><td class="num">$0.031</td><td class="num"><strong>$0.046</strong></td><td class="num"><strong>3,870</strong></td></tr>
+  </table></div>
+  <p>ה-IAP מוחזק קבוע על <strong>$0.015</strong> בכל שלוש המדרגות — הוא לא מושפע מהמעבר, וחבילות המטבעות, ה-World Pass וה-Pro ממשיכים להימכר בזמן שמנוע הפרסומות מתחמם.</p>
+  <p><strong>הבסיס הריאלי הוא $0.046, לא $0.05.</strong> ההנחה המקורית לא הייתה שגויה — היא פשוט ישבה בקצה העליון של מה שהאינוונטורי הזה מייצר, ולא באמצע. ב-3,600 DAU זה פער של בערך <strong>1,600 ₪ בחודש</strong> (18,400 ₪ במקום 19,980 ₪). היעד של 3,600 DAU עדיין עומד בטווח של ~8% מהמטרה.</p>
+  <div class="note-warn"><strong>סיכון התזמון גדול מסיכון התעריף:</strong> השעון של 6 חודשים בתוכנית הזו הניח הכנסות מהיום הראשון. בפועל, החודשיים הראשונים של המונטיזציה ירוצו בחצי תעריף או פחות. אם הקהל מגיע בזמן אבל ה-waterfall עדיין קר — מונטזים את חלון הגיוס הכי טוב במחירי התנעה. <strong>המסקנה המעשית: לסגור את אישור AppLovin לפני שקמפיין הווידאו מתחיל לרעוש, לא אחרי.</strong></div>
+  <h3>המנוף האמיתי — ואיפה הוא מתנגש</h3>
+  <p>בחירת רשת הפרסום שווה אולי 20% לכל כיוון. ה-cooldowns שווים יותר, כי הם קובעים ישירות את תקרת הנפח: משתמש שרוצה לצפות בשש מודעות פשוט לא יכול — האפליקציה לא תציע לו. קיצור ה-Bonus מ-90 ל-45 דקות וה-Quick מ-20 ל-15 היה מעלה את ה-Rewarded מ-0.9 ל-1.3 ליום, כלומר <strong>+$0.006 ARPDAU</strong> — מספיק לבד כדי לסגור את הפער ל-$0.05.</p>
+  <p><strong>אבל זו הגדלה של 45% בברז המטבעות</strong>, וכלכלת המטבעות נחתכה בכוונה בחצי בגרסה v4. מטבעות זולים יותר שוחקים בדיוק את מה שחבילות ה-$4.99–$49.99 מוכרות. הרווח בפרסומות מדיד; ההפסד ב-IAP לא, עד שהוא כבר קרה. שווה לבדוק — סלוט אחד בכל פעם, אחרי שה-waterfall חם מספיק כדי למדוד מולו. לא עכשיו, כשהבסיס עוד זז.</p>
   <p>כדי להחזיק ~3,600 DAU בחודש 6 צריך בערך <strong>60,000–90,000 הורדות מצטברות</strong> (בהנחת שימור טיפוסי). זה לא קורה מ-600 התקנות ממומנות — זה קורה כשסרטון אחד או שניים מתוך 60 עוברים מיליון צפיות. לכן התוכנית מייצרת <strong>60 הזדמנויות ויראליות</strong>, מודדת, ומכפילה את מה שעובד.</p>
   <div class="kpi">
     <div class="k"><div class="v">60</div><div class="l">פרקים = 60 הזדמנויות ויראליות</div></div>
     <div class="k"><div class="v">5–6</div><div class="l">סרטונים בשבוע, 10–12 שבועות</div></div>
     <div class="k"><div class="v">3,600</div><div class="l">DAU יעד בחודש 6</div></div>
     <div class="k"><div class="v">$180</div><div class="l">הכנסה יומית ביעד</div></div>
+    <div class="k"><div class="v">2.9</div><div class="l">חשיפות למשתמש פעיל ביום</div></div>
+    <div class="k"><div class="v">~7</div><div class="l">שבועות עד קצב הכנסות מלא</div></div>
   </div>
   <div class="note-warn"><strong>יושרה מקצועית:</strong> אף מתכנן רציני לא יכול "להבטיח" 20,000 ₪ תוך 6 חודשים על תקציב 5,000 ₪ — יחס של 1:4 בין השקעה חודשית להכנסה חודשית תלוי בהצלחה אורגנית. מה שהתוכנית כן עושה: ממקסמת את ההסתברות (60 ניסויים מדידים, עלות שולית כמעט אפסית לסרטון), ובונה נכס (דמות + קהל + צנרת) ששווה כסף גם בתרחיש הביניים.</div>
 </section>
@@ -2254,7 +2274,7 @@ launchctl load ~/Library/LaunchAgents/com.medcross.pipeline.plist</code></pre>
     <tr><td><strong>1</strong></td><td>דמות + אאוטרו + 20 פרקים ראשונים (Flagship 5 קודם); הקמת הסוכן; פתיחת חשבונות ייעודיים</td><td class="num">~1,450 ₪</td><td>סרטון אחד לפחות מעל 50K צפיות, או שיעור צפייה-עד-הסוף מעל 30% בממוצע</td></tr>
     <tr><td><strong>2</strong></td><td>20 פרקים נוספים רק מהסדרות שעבדו; הפעלת ASA ב-25 ₪/יום; A/B על הוקים</td><td class="num">~1,800 ₪</td><td>1,000+ הורדות מצטברות; CPI ממומן מתחת ל-$2.5</td></tr>
     <tr><td><strong>3</strong></td><td>20 הפרקים האחרונים; שחרור הרזרבה למנצח (ASA או וידאו); התחלת סדרה 2 לפי דאטה</td><td class="num">~1,750 ₪</td><td>5,000+ הורדות; ARPDAU נמדד מעל $0.03</td></tr>
-    <tr><td><strong>4</strong></td><td>התקציב נגמר — וזה בסדר: הצנרת רצה על מכסת Gemini + רווחי AdMob הראשונים שממוחזרים פנימה</td><td class="num">0 ₪ חדש</td><td>הכנסה חודשית 3,000–5,000 ₪</td></tr>
+    <tr><td><strong>4</strong></td><td>התקציב נגמר — וזה בסדר: הצנרת רצה על מכסת Gemini + רווחי AppLovin הראשונים שממוחזרים פנימה</td><td class="num">0 ₪ חדש</td><td>הכנסה חודשית 3,000–5,000 ₪</td></tr>
     <tr><td><strong>5</strong></td><td>הכפלת מה שעובד; שיתופי פעולה עם חשבונות סטודנטים לרפואה (חליפין, לא כסף)</td><td class="num">ממוחזר</td><td>הכנסה 8,000–12,000 ₪</td></tr>
     <tr><td><strong>6</strong></td><td>אופטימיזציית המרה בתוך האפליקציה (paywall, מחירי IAP) — בשלב הזה כל אחוז שיפור שווה אלפי שקלים</td><td class="num">ממוחזר</td><td><strong>יעד: 20,000 ₪/חודש</strong></td></tr>
   </table></div>
@@ -2270,7 +2290,7 @@ launchctl load ~/Library/LaunchAgents/com.medcross.pipeline.plist</code></pre>
         <li>צפיות ושיעור צפייה-עד-הסוף לכל פרק (המדד הכי חשוב להוקים)</li>
         <li>הורדות (App Store Connect → Sources) מול ימים של פרסום</li>
         <li>CPI ב-ASA מול תקרת ה-$2.5</li>
-        <li>ARPDAU = הכנסה יומית ÷ DAU (AdMob + IAP)</li>
+        <li>ARPDAU = הכנסה יומית ÷ DAU (AppLovin MAX + IAP)</li>
         <li>שיעור תגובות "QUIZ" → לחיצות על הלינק מהסוכן</li>
       </ul>
     </div>
@@ -2287,7 +2307,7 @@ launchctl load ~/Library/LaunchAgents/com.medcross.pipeline.plist</code></pre>
 </section>
 
 <footer>
-  <p>MedCross · תוכנית צמיחה ואוטומציה · נבנה 2026-08 · המחירים לפי פרסומי הספקים באוגוסט 2026 — לאמת לפני רכישת קרדיטים.</p>
+  <p>MedCross · תוכנית צמיחה ואוטומציה · נבנה 2026-08 · מודל ההכנסות עודכן 2026-08-23 (מעבר ל-AppLovin MAX) · המחירים לפי פרסומי הספקים באוגוסט 2026 — לאמת לפני רכישת קרדיטים.</p>
 </footer>
 
 </div>
